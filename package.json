@@ -1,7 +1,6 @@
 {
   "name": "bip32-ed25519",
   "version": "0.0.1",
-  "private": true,
   "main": "index.js",
   "scripts": {},
   "dependencies": {
