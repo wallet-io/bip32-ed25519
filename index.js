@@ -16,9 +16,6 @@ function hmac512(key, data) {
 }
 
 function makeEd25519Extended(secret) {
-    if (typeof secret === 'string') {
-        secret = Buffer.from(secret, 'hex');
-    }
     var extended = sha512(secret);
     extended[0] &= 248;
     extended[31] &= 63;
@@ -29,8 +26,8 @@ function makeEd25519Extended(secret) {
 function generateFromSeed(seed) {
     var iter = 1;
     while (true) {
-        var key = 'Root Seed Chain ' + iter;
-        var block = hmac512(key, seed);
+        var s = 'Root Seed Chain ' + iter;
+        var block = hmac512(seed, s);
         var extended = makeEd25519Extended(block.slice(0, 32));
         if ((extended[31] & 0x20) === 0) {
             return Buffer.concat([extended, block.slice(32, 64)])
@@ -149,6 +146,7 @@ function verify(message, sig, xpub) {
 }
 
 module.exports = {
+    fromSeed: generateFromSeed,
     generateFromSeed: generateFromSeed,
     derivePrivate: derivePrivate,
     derivePublic: derivePublic,
