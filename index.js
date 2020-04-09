@@ -73,8 +73,8 @@ function derivePrivate(xprv, index) {
 
     // left = kl + 8 * trunc28(zl)
     // right = zr + kr
-    var left = new BN(kl, 16, 'le').add(new BN(zl.slice(0, 28), 16, 'le').mul(new BN(8))).toBuffer('le', 32);
-    var right = new BN(kr, 16, 'le').add(new BN(zr, 16, 'le')).toBuffer('le').slice(0, 32);
+    var left = new BN(kl, 16, 'le').add(new BN(zl.slice(0, 28), 16, 'le').mul(new BN(8))).toArrayLike(Buffer, 'le', 32);
+    var right = new BN(kr, 16, 'le').add(new BN(zr, 16, 'le')).toArrayLike(Buffer, 'le').slice(0, 32);
 
     // just padding
     if (right.length !== 32) {
