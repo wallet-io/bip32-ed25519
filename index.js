@@ -36,6 +36,18 @@ function generateFromSeed(seed) {
     }
 }
 
+function fromSeed2(seed) {
+    var s = 'ed25519 cardano seed';
+    var block = hmac512(s, seed);
+
+    var extended = sha512(block.slice(0, 32));
+    extended[0] &= 248;
+    extended[31] &= 0x1f;
+    extended[31] |= 64;
+
+    return Buffer.concat([extended, block.slice(32, 64)])
+}
+
 function derivePrivate(xprv, index) {
     var kl = xprv.slice(0, 32);
     var kr = xprv.slice(32, 64);
@@ -146,6 +158,7 @@ function verify(message, sig, xpub) {
 }
 
 module.exports = {
+    fromSeed2: fromSeed2,
     fromSeed: generateFromSeed,
     generateFromSeed: generateFromSeed,
     derivePrivate: derivePrivate,
