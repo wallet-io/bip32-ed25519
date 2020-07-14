@@ -1,6 +1,6 @@
 {
   "name": "bip32-ed25519",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "index.js",
   "scripts": {},
   "dependencies": {
