@@ -5,11 +5,11 @@
   "scripts": {},
   "dependencies": {
     "bn.js": "^5.1.1",
-    "elliptic": "^6.4.1",
+    "elliptic": "^6.5.4",
     "hash.js": "^1.1.7"
   },
   "devDependencies": {
-    "mocha": "^3.4.2",
+    "mocha": "^10.3.0",
     "should": "^11.2.1"
   },
   "cnpm": {
