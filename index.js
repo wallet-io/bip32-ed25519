@@ -4,6 +4,7 @@ var elliptic = require('elliptic');
 var utils = elliptic.utils;
 var EDDSA = require('./elliptic_eddsa_variant');
 var eddsa = new EDDSA('ed25519');
+var pbkdf2 = require('pbkdf2');
 
 function sha512(data) {
     var digest = hash.sha512().update(data).digest();
@@ -46,6 +47,16 @@ function fromSeed2(seed) {
     extended[31] |= 64;
 
     return Buffer.concat([extended, block.slice(32, 64)])
+}
+
+function fromEntropy(entropy) {
+    const xprv = pbkdf2.pbkdf2Sync('', entropy, 4096, 96, 'sha512')
+
+    xprv[0] &= 248
+    xprv[31] &= 31
+    xprv[31] |= 64
+
+    return Buffer.from(xprv)
 }
 
 function derivePrivate(xprv, index) {
@@ -160,6 +171,7 @@ function verify(message, sig, xpub) {
 module.exports = {
     fromSeed2: fromSeed2,
     fromSeed: generateFromSeed,
+    fromEntropy,
     generateFromSeed: generateFromSeed,
     derivePrivate: derivePrivate,
     derivePublic: derivePublic,
